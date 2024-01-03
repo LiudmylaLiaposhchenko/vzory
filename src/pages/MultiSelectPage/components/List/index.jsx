@@ -3,6 +3,7 @@ import { ListItem } from '../ListItem';
 
 export const List = () => {
   const [items, setItems] = useState(null);
+  const [numSelected, setNumSelected] = useState(0);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -20,8 +21,15 @@ export const List = () => {
 
   return (
     <div className="list">
+      <div className="number-items">{numSelected}</div>
       {items.map((item) => (
-        <ListItem key={item.id} item={item} />
+        <ListItem
+          key={item.id}
+          item={item}
+          onSelect={(selected) =>
+            setNumSelected(selected ? numSelected + 1 : numSelected - 1)
+          }
+        />
       ))}
     </div>
   );
