@@ -4,7 +4,6 @@ import { ListItem } from '../ListItem';
 export const List = () => {
   const [items, setItems] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-  const [numberCal, setNumberCal] = useState(0);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -20,11 +19,6 @@ export const List = () => {
     return <p>Loading...</p>;
   }
 
-  const handleSelect = (id, calories) => {
-    setSelectedId(id);
-    setNumberCal(calories);
-  };
-
   return (
     <div className="list">
       {items.map((item) => (
@@ -32,10 +26,16 @@ export const List = () => {
           key={item.id}
           item={item}
           selected={item.id === selectedId}
-          onSelect={handleSelect}
+          onSelect={setSelectedId}
         />
       ))}
-      <p>Položka má {numberCal} kcal.</p>
+      {selectedId !== null ? (
+        <p>
+          Polozka ma{' '}
+          {items.find((item) => item.id === selectedId).nutrients.energy.value}{' '}
+          kcal
+        </p>
+      ) : null}
     </div>
   );
 };
